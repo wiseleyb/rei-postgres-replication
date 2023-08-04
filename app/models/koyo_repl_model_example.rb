@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-class User < ApplicationRecord
+# Basic model example
+class KoyoReplModelExample < ApplicationRecord
   include Koyo::Repl::Mod
 
   # register method for replication

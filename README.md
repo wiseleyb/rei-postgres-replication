@@ -1,24 +1,49 @@
-# README
+# koyo-postgres-replicaiton Rails 7 example
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Setup
 
-Things you may want to cover:
+```
+gem 'koyo-postgres-replication'
+bundle install
+bundle exec rake koyo:repl:install
+```
 
-* Ruby version
+## Diagnostics
 
-* System dependencies
+```
+bundle exec rake koyo:repl:diagnostics
+```
 
-* Configuration
+If there are errors like: Error: PG::ObjectNotInPrerequisiteState try dropping
+and recreating the replication slot:
 
-* Database creation
+```
+be rails c
+Koyo::Repl::Utils.delete_replication_slot!
+Koyo::Repl::Utils.create_replication_slot!
+```
 
-* Database initialization
+## Running the server
 
-* How to run the test suite
+```
+bundle exec rake koyo:repl:run_server
+```
 
-* Services (job queues, cache servers, search engines, etc.)
+And run a quick test from console:
 
-* Deployment instructions
+```
+u = User.first
+u.name = "Bob #{Time.now}"
+u.save
+```
 
-* ...
+And you should see some output in the server.
+
+*IMPORTANT* you should only run one server. You can't scale this by running
+mulple servers because things like update order should matter to you and you'll
+get locking in short order. You can decrease the delay between checks (which is
+1 second currently) to speed things up if you want though.
+
+
+
+
