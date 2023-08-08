@@ -2,11 +2,10 @@
 
 require 'rails_helper'
 
-RSpec.describe User do
-  # stupid smoke test
+RSpec.describe User, type: :model do
+  # smoke test
   it 'works' do
     u = User.create(name: 'bob')
-    u.save
     expect(User.find(u.id).name).to eq('bob')
   end
 end

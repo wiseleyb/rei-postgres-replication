@@ -1,0 +1,9 @@
+AllCops:
+  DisplayCopNames: true
+  Exclude:
+    - "bin/**/*"
+    - "db/**/*"
+    - "vendor/**/*"
+    - "node_modules/**/*"
+    - "tmp/**/*"
+    - "spec/spec_helper.rb"
