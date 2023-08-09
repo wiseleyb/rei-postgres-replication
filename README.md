@@ -14,7 +14,7 @@ console.
 ## Commits showing exactly what was changed 
 
 * [Add gem to Rails](https://github.com/wiseleyb/rei-postgres-replication/commit/eb197d4b7e2304b36a746ea3bdf54ae96ba46c27)
-* [Add Docker for this project]()
+* [Add Docker for this project](https://github.com/wiseleyb/rei-postgres-replication/commit/3bdbb1f5522fb787fad9214b5a4d3becc78afcb6)
 
 ## Quick Start
 
@@ -33,7 +33,61 @@ bundle exec rails c
 
 ## Docker
 
-TODO
+Aliases used for docker commands
+
+```
+alias dccomp='docker-compose'
+alias dccop='docker-compose run web rubocop'
+alias dcup='docker-compose up'
+alias dcdown='docker-compose down'
+alias dcbuild='docker-compose build'
+alias dccon='docker-compose run web bundle exec rails c'
+alias dcrails='docker-compose run web bundle exec rails'
+alias dcrake='docker-compose run web bundle exec rake'
+alias dcreset='docker-compose down && docker rm -f $(docker ps -a -q); docker volume rm $(docker volume ls -q); docker-compose up -d'
+alias dcrspec='docker-compose run web bundle exec rspec'
+alias dcbundle='docker-compose run web bundle install'
+```
+
+To run docker:
+
+```
+# If you're running into problems it might be caching related... this will 
+# delete ALL docker content - so be warned
+# dcimplode
+
+# make entrypoint executable
+chmod 755 entrypoint.sh
+
+# build and run
+dcup --build
+```
+
+You now have Rails and the koyo:repl server running... to do other things:
+
+```
+dccon                             # runs rails console
+
+# run specs
+dcrake db:create db:test:prepare RAILS_ENV=test
+dcrspec                           # runs rspec tests
+
+dcrake                            # run rake tasks
+dcrake koyo:repl:install          # installs config/handlers/examples
+dcrake koyo:repl:diagnostics      # runs diagnostics
+```
+
+### What is docker, why use it?
+
+I'm definitely a newb to docker but it allows a "simple" (docker isn't very
+simple) to run different versions of servers on the same system. It basically
+runs containerized servers. This can be helpful if you're doing stuff like
+consulting where one company is on Rails 4 and the other is Rails 7 ... getting
+those to run side-by-side on your Mac is non-trivial/impossible due to things
+like openssl conflicts, etc. 
+
+On a Mac, to get started with docker [download Docker for your
+system](https://www.docker.com) from https://www.docker.com/
 
 ## Explore code
 

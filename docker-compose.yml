@@ -1,0 +1,64 @@
+version: '3.7'
+services:
+  db:
+    build: ./docker/postgres
+    image: postgres:14
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=changeme
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    command: postgres -c wal_level=logical
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
+  web:
+    build: ./docker/web
+    image: rails-on-docker:1.3.0
+    command: bash -c "rm -f tmp/pids/server.pid && bundle install && bundle exec rake db:setup db:migrate && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    #command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    ports:
+      - "3000:3000"
+    stdin_open: true
+    tty: true
+    environment:
+      - DATABASE_URL=postgres://postgres:changeme@db
+      - BOOTSNAP_CACHE_DIR=/usr/local/bundle/_bootsnap
+      - WEB_CONCURRENCY=1
+      - HISTFILE=/usr/src/app/.dockerdev/.bash_history
+      - MALLOC_ARENA_MAX=2
+    volumes:
+      - .:/usr/src/app/:cached
+      - bundle:/usr/local/bundle
+      - rails_cache:/usr/src/app/tmp/cache
+      - node_modules:/usr/src/app/node_modules
+      - packs:/usr/src/app/public/packs
+    depends_on:
+      - db
+  koyo_repl_server:
+    build: ./docker/web
+    image: rails-on-docker:1.3.0
+    command: bash -c "bundle install && bundle exec rake koyo:repl:run_server"
+    stdin_open: true
+    tty: true
+    environment:
+      - DATABASE_URL=postgres://postgres:changeme@db
+      - BOOTSNAP_CACHE_DIR=/usr/local/bundle/_bootsnap
+      - WEB_CONCURRENCY=1
+      - HISTFILE=/usr/src/app/.dockerdev/.bash_history
+      - MALLOC_ARENA_MAX=2
+    volumes:
+      - .:/usr/src/app/:cached
+      - bundle:/usr/local/bundle
+      - rails_cache:/usr/src/app/tmp/cache
+      - node_modules:/usr/src/app/node_modules
+      - packs:/usr/src/app/public/packs
+    depends_on:
+      - db
+      - web
+volumes:
+  bundle:
+  db_data:
+  node_modules:
+  rails_cache:
+  packs:
