@@ -1,3 +1,6 @@
+Metrics/BlockLength:
+  Enabled: false
+
 AllCops:
   DisplayCopNames: true
   Exclude:

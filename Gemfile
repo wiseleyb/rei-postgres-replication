@@ -38,6 +38,13 @@ gem 'bootsnap', require: false
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 # gem "rack-cors"
 
+# For testing you can check out the gem and interactively debug things
+# You'll need to change the path depending on your setup
+# gem 'koyo-postgres-replication', path: '../../koyo/koyo-postgres-replication'
+gem 'koyo-postgres-replication',
+    git: 'https://github.com/wiseleyb/koyo-postgres-replication',
+    require: 'koyo'
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'debug', platforms: %i[mri mingw x64_mingw]
@@ -47,4 +54,8 @@ end
 group :development do
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
+end
+
+group :test do
+  gem 'database_cleaner-active_record'
 end

@@ -31,6 +31,26 @@ begin
 rescue ActiveRecord::PendingMigrationError => e
   abort e.to_s.strip
 end
+
+# Testing replication doesn't work with transaction fixtures
+# To use this do something like
+# without_transactional_fixtures do
+#   it 'works'
+#     ...
+#   end
+# end
+def without_transactional_fixtures
+  before(:all) do
+    DatabaseCleaner.strategy = :truncation
+  end
+
+  yield
+
+  after(:all) do
+    DatabaseCleaner.strategy = :transaction
+  end
+end
+
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
@@ -38,7 +58,9 @@ RSpec.configure do |config|
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
   # instead of true.
-  config.use_transactional_fixtures = true
+  config.use_transactional_fixtures = false
+
+  DatabaseCleaner.strategy = :truncation
 
   # You can uncomment this line to turn off ActiveRecord support entirely.
   # config.use_active_record = false
@@ -62,4 +84,8 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
+
+  config.before(:suite) do
+    Koyo::Repl::Database.create_replication_slot! unless Koyo::Repl::Database.replication_slot_exists?
+  end
 end
