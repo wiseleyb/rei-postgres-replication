@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/wiseleyb/koyo-postgres-replication
-  revision: 15528d640fe177365d00635669bbc1b243bcf173
+  revision: f02c9efa66f292626de369b874fb9a142988786c
   specs:
     koyo-postgres-replication (0.1.0)
       pg (>= 1.1)
