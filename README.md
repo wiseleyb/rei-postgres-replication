@@ -1,6 +1,7 @@
 # rei-postgre-replication Rails 7 example
 
-# koyo-postgres-replicaiton Rails 7 example
+例 rei - Japanese for example 
+効用 koyo - Japanese for utility
 
 This is an example of using the [koyo-postgres-replication
 gem](https://github.com/wiseleyb/koyo-postgres-replication) with Rails 7. See
