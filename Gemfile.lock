@@ -1,13 +1,3 @@
-GIT
-  remote: https://github.com/wiseleyb/koyo-postgres-replication
-  revision: 65811ed81d70a7a2864a342f5785dabff7046cfd
-  specs:
-    koyo-postgres-replication (0.1.0.pre)
-      pg (>= 1.1)
-      rack (>= 2.0.0)
-      rails (>= 7.0)
-      rake (>= 13.0)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -98,6 +88,11 @@ GEM
     io-console (0.6.0)
     irb (1.7.4)
       reline (>= 0.3.6)
+    koyo-postgres-replication (0.1.0.pre)
+      pg (~> 1.1)
+      rack (~> 2.0, >= 2.0.0)
+      rails (~> 7.0)
+      rake (~> 13.0)
     loofah (2.21.3)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
@@ -194,7 +189,7 @@ DEPENDENCIES
   bootsnap
   database_cleaner-active_record
   debug
-  koyo-postgres-replication!
+  koyo-postgres-replication (= 0.1.0.pre)
   pg (~> 1.1)
   puma (~> 5.0)
   rails (~> 7.0.6)
