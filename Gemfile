@@ -17,11 +17,15 @@ gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 # gem 'koyo-postgres-replication', path: '../../koyo/koyo-postgres-replication'
 
 # For testing against git repro
+# NOTE: A gotcha with this is if you keep pushing changes you need to change
+#       ref to the commit you're testing
 # gem 'koyo-postgres-replication',
-#     git: 'https://github.com/wiseleyb/koyo-postgres-replication',
-#     require: 'koyo'
+#    git: 'https://github.com/wiseleyb/koyo-postgres-replication',
+#    ref: 'a403b0a',
+#    require: 'koyo'
+#    branch: 'version-0.1.2.pre'
 
-gem 'koyo-postgres-replication', '0.1.1.pre', require: 'koyo'
+gem 'koyo-postgres-replication', '0.1.3.pre', require: 'koyo'
 
 group :development, :test do
   gem 'debug', platforms: %i[mri mingw x64_mingw]
