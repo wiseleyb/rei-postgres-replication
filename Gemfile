@@ -9,6 +9,7 @@ gem 'pg', '~> 1.1'
 gem 'rails', '~> 7.0.6'
 
 gem 'bootsnap', require: false
+gem 'composite_primary_keys'
 gem 'puma', '~> 5.0'
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
@@ -25,7 +26,7 @@ gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 #    require: 'koyo'
 #    branch: 'version-0.1.2.pre'
 
-gem 'koyo-postgres-replication', '0.1.3.pre', require: 'koyo'
+gem 'koyo-postgres-replication', '0.1.5.pre', require: 'koyo'
 
 group :development, :test do
   gem 'debug', platforms: %i[mri mingw x64_mingw]

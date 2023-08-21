@@ -2,12 +2,16 @@
 
 require 'rails_helper'
 
-RSpec.describe User, type: :model do
+RSpec.describe UserInterestsNonRail, type: :model do
   # Smoke test
   it 'works' do
     name = "Test #{Time.now}"
     u = User.create(name:)
-    expect(User.find(u.id).name).to eq(name)
+    name = 'Space Aliens'
+    i = Interest.create(name:)
+    UserInterestsNonRail.create(user_id: u.id, interest_id: i.id)
+    expect(UserInterestsNonRail.where(user_id: u.id,
+                                      interest_id: i.id).count).to eq(1)
   end
 
   # Very basic spec example for testing koyo:repl
@@ -17,14 +21,16 @@ RSpec.describe User, type: :model do
     end
 
     context 'running server' do
-      let(:user) { User.new }
-
       before do
+        User.create(name: "User #{Time.now}")
+        Interest.create(name: "Interest #{Time.now}")
+        UserInterestsNonRail.destroy_all
+
         # clean out data that might already be in the slot
         Koyo::Repl::PostgresServer.new.check
 
         # test that replication calls the call backs (processes data)
-        expect(User).to receive(:handle_replication)
+        expect(UserInterestsNonRail).to receive(:handle_replication)
         expect(Koyo::Repl::EventHandlerService).to \
           receive(:koyo_handle_all_replication)
         expect(Koyo::Repl::EventHandlerService).to \
@@ -32,8 +38,9 @@ RSpec.describe User, type: :model do
       end
 
       it 'works' do
-        user.name = "test #{Time.now}"
-        user.save!
+        UserInterestsNonRail.where(user_id: User.first.id,
+                                   interest_id: Interest.first.id)
+                            .first_or_create
 
         # You can debug things with code like this
         # See all replication slots
@@ -43,21 +50,6 @@ RSpec.describe User, type: :model do
         # Peek at what's in the current replication slot
         #   res = Koyo::Repl::Database.peek_slot
         Koyo::Repl::PostgresServer.new.check
-      end
-    end
-
-    context 'finds models to be notified' do
-      let(:tables) do
-        Koyo::Repl::PostgresServer.tables_that_handle_koyo_replication
-      end
-
-      it 'works' do
-        res = {
-          'user_interests_non_rails' => 'UserInterestsNonRail',
-          'users' => 'User'
-        }
-        expect(tables).to eq(res)
-        expect(Koyo::Repl::PostgresServer.new.tables).to eq(res)
       end
     end
   end

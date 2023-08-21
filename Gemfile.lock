@@ -69,6 +69,8 @@ GEM
     bootsnap (1.16.0)
       msgpack (~> 1.2)
     builder (3.2.4)
+    composite_primary_keys (14.0.6)
+      activerecord (~> 7.0.2)
     concurrent-ruby (1.2.2)
     crass (1.0.6)
     database_cleaner-active_record (2.1.0)
@@ -88,7 +90,7 @@ GEM
     io-console (0.6.0)
     irb (1.7.4)
       reline (>= 0.3.6)
-    koyo-postgres-replication (0.1.3.pre)
+    koyo-postgres-replication (0.1.5.pre)
       pg (~> 1.1)
       rack (~> 2.0, >= 2.0.0)
       rails (~> 7.0)
@@ -187,9 +189,10 @@ PLATFORMS
 
 DEPENDENCIES
   bootsnap
+  composite_primary_keys
   database_cleaner-active_record
   debug
-  koyo-postgres-replication (= 0.1.3.pre)
+  koyo-postgres-replication (= 0.1.5.pre)
   pg (~> 1.1)
   puma (~> 5.0)
   rails (~> 7.0.6)
